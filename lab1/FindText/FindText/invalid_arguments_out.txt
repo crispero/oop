@@ -1,0 +1,2 @@
+Invalid arguments count
+Usage: findtext.txt <file name> <text to search>
