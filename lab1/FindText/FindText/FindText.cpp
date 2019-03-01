@@ -23,34 +23,35 @@ bool FindStringInStream(ifstream& fin, string givenString)
 
 int main(int argc, char* argv[])
 {
-	string fileName = argv[1];
-	string givenString = argv[2];
 	int parametersNumber = argc;
 
-	ifstream fin(fileName);
-
-	if (parametersNumber < 3 || parametersNumber > 3)
+	if (parametersNumber != 3)
 	{
-		cout << "Invalid arguments count\n"
-			 << "Usage: findtext.txt <file name> <text to search>\n";
+		cerr << "Invalid arguments count\n"
+			 << "Usage: findtext.exe <file name> <text to search>\n";
 		return 1;
 	}
 
+	string fileName = argv[1];
+	string givenString = argv[2];
+	
+	ifstream fin(fileName);
+
 	if (!fin.is_open())
 	{
-		cout << "Failed to open " << fileName << " for reading\n";
+		cerr << "Failed to open " << fileName << " for reading\n";
 		return 1;
 	}
 
 	if (givenString == "")
 	{
-		cout << "Given string is empty\n";
+		cerr << "Given string is empty\n";
 		return 1;
 	}
 
 	if (!FindStringInStream(fin, givenString))
 	{
-		cout << "Text not found\n";
+		cerr << "Text not found\n";
 		return 1;
 	}
 
