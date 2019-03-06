@@ -48,5 +48,8 @@
     <Text Include="invalid_arguments_out.txt">
       <Filter>Tests</Filter>
     </Text>
+    <Text Include="input_string_out.txt">
+      <Filter>Tests</Filter>
+    </Text>
   </ItemGroup>
 </Project>

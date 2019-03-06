@@ -177,6 +177,7 @@
     <Text Include="correct_input_out.txt" />
     <Text Include="incorrect_input1_out.txt" />
     <Text Include="incorrect_input2_out.txt" />
+    <Text Include="input_string_out.txt" />
     <Text Include="invalid_arguments_out.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

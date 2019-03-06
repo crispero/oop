@@ -5,28 +5,15 @@
 
 using namespace std;
 
-int main(int argc, char* argv[])
+const string INVALID_ARGUMENTS_COUNT = "Invalid arguments count\nUsage: flipbyte.exe <input byte>\n";
+const string WRONG_NUMBER = "The second argument must be a number greater than 0 and less than 255\n";
+
+unsigned int getFlipByte(unsigned int inputByte)
 {
 	vector<int> arrayOfPositions;
-	int inputByte = atoi(argv[1]);
-	unsigned int parametersNumber = argc;
-
-	if (parametersNumber != 2)
-	{
-		cout << "Invalid arguments count\n"
-			 << "Usage: flipbyte.exe <input byte>\n";
-		return 1;
-	}
-
-	if (inputByte < 0 || inputByte > 255)
-	{
-		cout << "The number must be greater than 0 and less than 255\n"; 
-		return 1;
-	}
-
 	bitset<8> bitSequence(inputByte);
 	const int bitSequenceLength = bitSequence.size() - 1;
-	
+
 	for (unsigned int i = 0; i < bitSequence.size(); i++)
 	{
 		if (bitSequence.test(i))
@@ -41,7 +28,47 @@ int main(int argc, char* argv[])
 		bitSequence[bitSequenceLength - arrayOfPositions[j]] = 1;
 	}
 
-	cout << bitSequence.to_ulong() << "\n";
+	return bitSequence.to_ulong();
+}
+
+bool isCorrectInput(string& inputString, int& inputByte)
+{
+	try
+	{
+		inputByte = stoi(inputString);
+	}
+	catch (const invalid_argument& err)
+	{
+		return false;
+	} 
+
+	if (inputByte < 0 || inputByte > 255)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+int main(int argc, char* argv[])
+{
+	int parametersNumber = argc;
+	if (parametersNumber != 2)
+	{
+		cout << INVALID_ARGUMENTS_COUNT;
+		return 1;
+	}
+
+	string inputString = argv[1];
+	int inputByte;
+
+	if (!isCorrectInput(inputString, inputByte))
+	{
+		cout << WRONG_NUMBER;
+		return 1;
+	}
+
+	cout << getFlipByte(inputByte) << "\n";
 
 	return 0;
 }
