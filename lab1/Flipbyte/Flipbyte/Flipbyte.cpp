@@ -12,7 +12,7 @@ unsigned int GetFlipByte(unsigned int inputByte)
 {
 	vector<int> arrayOfPositions;
 	bitset<8> bitSequence(inputByte);
-	const int bitSequenceLength = bitSequence.size() - 1;
+	size_t bitSequenceLength = bitSequence.size() - 1;
 
 	for (unsigned int i = 0; i < bitSequence.size(); i++)
 	{
