@@ -50,8 +50,13 @@ bool CheckMatrix(ifstream &fin, MatrixX3 &mainMatrix)
 	}
 
 	InitMatrix(fin, mainMatrix);
-	
-	if (DeterminantOfMatrixX3(mainMatrix) == 0)
+
+	return true;
+}
+
+bool CheckDeterminant(float detOfMatrixX3)
+{
+	if (detOfMatrixX3 == 0)
 	{
 		cout << ERROR_ZERO_DETERMINANT;
 		return false;
@@ -59,6 +64,7 @@ bool CheckMatrix(ifstream &fin, MatrixX3 &mainMatrix)
 
 	return true;
 }
+
 
 void CloneMatrix(MatrixX3& mainMatrix, MatrixX3& additionalMatrix)
 {
@@ -95,10 +101,9 @@ float DeterminantOfMatrixX2(MatrixX3& additionalMatrix, int numRow, int numCol)
 	return det;
 }
 
-void InverseMatrix(MatrixX3& mainMatrix, MatrixX3& additionalMatrix, MatrixX3& inverseMatrix)
+void InverseMatrix(MatrixX3& mainMatrix, MatrixX3& additionalMatrix, MatrixX3& inverseMatrix, float detOfMatrixX3)
 {
 	int k = 1;
-	float detOfMatrixX3 = DeterminantOfMatrixX3(mainMatrix);
 	for (int row = 0; row < MATRIX_X3_SIZE; row++)
 	{
 		for (int col = 0; col < MATRIX_X3_SIZE; col++)
@@ -139,9 +144,13 @@ int main(int argc, char* argv[])
 
 	if (CheckMatrix(fin, mainMatrix))
 	{
-		CloneMatrix(mainMatrix, additionalMatrix);
-		InverseMatrix(mainMatrix, additionalMatrix, inverseMatrix);
-		PrintInverseMatrix(inverseMatrix);
+		float det = DeterminantOfMatrixX3(mainMatrix);
+		if (CheckDeterminant(det))
+		{
+			CloneMatrix(mainMatrix, additionalMatrix);
+			InverseMatrix(mainMatrix, additionalMatrix, inverseMatrix, det);
+			PrintInverseMatrix(inverseMatrix);
+		}
 	}
 
 	return 0;
