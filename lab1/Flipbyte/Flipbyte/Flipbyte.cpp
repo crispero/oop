@@ -8,7 +8,7 @@ using namespace std;
 const string INVALID_ARGUMENTS_COUNT = "Invalid arguments count\nUsage: flipbyte.exe <input byte>\n";
 const string WRONG_NUMBER = "The second argument must be a number greater than 0 and less than 255\n";
 
-unsigned int getFlipByte(unsigned int inputByte)
+unsigned int GetFlipByte(unsigned int inputByte)
 {
 	vector<int> arrayOfPositions;
 	bitset<8> bitSequence(inputByte);
@@ -31,7 +31,7 @@ unsigned int getFlipByte(unsigned int inputByte)
 	return bitSequence.to_ulong();
 }
 
-bool isCorrectInput(string& inputString, int& inputByte)
+bool IsCorrectInput(string& inputString, int& inputByte)
 {
 	try
 	{
@@ -62,13 +62,13 @@ int main(int argc, char* argv[])
 	string inputString = argv[1];
 	int inputByte;
 
-	if (!isCorrectInput(inputString, inputByte))
+	if (!IsCorrectInput(inputString, inputByte))
 	{
 		cout << WRONG_NUMBER;
 		return 1;
 	}
 
-	cout << getFlipByte(inputByte) << "\n";
+	cout << GetFlipByte(inputByte) << "\n";
 
 	return 0;
 }
