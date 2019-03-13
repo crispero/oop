@@ -1,0 +1,4 @@
+biWidth: 480
+biHeight: 360
+biBitCount: 24
+biSizeImage: 518400

@@ -1,0 +1,2 @@
+Invalid arguments count
+Usage: bmpinfo.exe <input file name>

@@ -1,0 +1,1 @@
+wrong_format.txt is not BMP file

@@ -30,4 +30,24 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="test.bat">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="invalid_arguments_out.txt" />
+    <Text Include="wrong_format.txt" />
+    <Text Include="wrong_format_out.txt" />
+    <Text Include="sun_out.txt" />
+    <Text Include="black_square_out.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="sun.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="hqdefault.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
 </Project>
