@@ -8,9 +8,17 @@ using namespace std;
 
 const int BMP_TYPE_CODE = 0x4D42;
 const int EIGHT_BITS_PER_PIXEL = 8;
+const int BI_RLE8 = 0x0001;
+const int BI_RLE4 = 0x0002;
+const int BI_JPEG = 0x0004;
+const int BI_PNG = 0x0005;
 const string INVALID_ARGUMENTS_COUNT = "Invalid arguments count\nUsage: bmpinfo.exe <input file name>\n";
 const string ERROR_OPEN_FILE = "Unable to open file for reading\n";
 const string NOT_BMP_FILE = " is not BMP file\n";
+const string BI_RLE_TYPE_OF_COMPRESSION = "This BI_RLE4 or BI_RLE8 type of compression\n";
+const string BI_JPEG_TYPE_OF_COMPRESSION = "This BI_JPEG type of compression\n";
+const string BI_PNG_TYPE_OF_COMPRESSION = "This BI_PNG type of compression\n";
+
 
 bool CollectBpmInfo(ifstream& fin, BITMAPFILEHEADER &fileHeader, BITMAPINFOHEADER &fileInfoHeader)
 {
@@ -46,10 +54,20 @@ void PrintBmpInfo(BITMAPINFOHEADER &fileInfoHeader)
 	cout << "biWidth: " << fileInfoHeader.biWidth << endl;
 	cout << "biHeight: " << fileInfoHeader.biHeight << endl;
 	cout << "biBitCount: " << fileInfoHeader.biBitCount << endl;
-	if (fileInfoHeader.biBitCount <= EIGHT_BITS_PER_PIXEL)
+
+	switch (fileInfoHeader.biCompression)
 	{
-		cout << "biClrUsed: " << fileInfoHeader.biClrUsed << endl;
+		case BI_RLE8 || BI_RLE4:
+			cout << BI_RLE_TYPE_OF_COMPRESSION;
+			break;
+		case BI_JPEG:
+			cout << BI_JPEG_TYPE_OF_COMPRESSION;
+			break;
+		case BI_PNG:
+			cout << BI_PNG_TYPE_OF_COMPRESSION;
+			break;
 	}
+
 	cout << "biSizeImage: " << fileInfoHeader.biSizeImage << endl;
 }
 
