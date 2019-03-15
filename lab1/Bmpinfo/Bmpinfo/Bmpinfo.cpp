@@ -55,6 +55,11 @@ void PrintBmpInfo(BITMAPINFOHEADER &fileInfoHeader)
 	cout << "biHeight: " << fileInfoHeader.biHeight << endl;
 	cout << "biBitCount: " << fileInfoHeader.biBitCount << endl;
 
+	if (fileInfoHeader.biBitCount <= EIGHT_BITS_PER_PIXEL)
+	{
+		cout << "biClrUsed: " << fileInfoHeader.biClrUsed << endl;
+	}
+
 	switch (fileInfoHeader.biCompression)
 	{
 		case BI_RLE8 || BI_RLE4:
