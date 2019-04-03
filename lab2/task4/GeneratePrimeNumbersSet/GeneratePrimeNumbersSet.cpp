@@ -1,19 +1,37 @@
 #include "pch.h"
-#include <iostream>
-#include <set>
+#include "GeneratePrimeNumbersSet.h"
 
-std::set<int> GeneratePrimeNumbersSet(int upperBound)
+std::vector<bool> PreScreeningNumbers(int upperBound)
 {
-	for (int i = 0; i < upperBound; i++)
-	{
+	std::vector<bool> primeNumbersVec(upperBound, true);
 
+	primeNumbersVec[0] = primeNumbersVec[1] = false;
+	for (unsigned int i = 2; i * i < upperBound; i++)
+	{
+		if (primeNumbersVec[i])
+		{
+			for (unsigned int k = i * i; k < upperBound; k += i)
+			{
+				primeNumbersVec[k] = false;
+			}
+		}
 	}
+
+	return primeNumbersVec;
 }
 
-int main()
+std::set<int> GeneratePrimeNumbers(int upperBound)
 {
-	int upperBound;
-	std::cin >> upperBound;
-	GeneratePrimeNumbersSet(upperBound);
-	return 0;
+	std::set<int> primeNumbersSet;
+	std::vector<bool> primeNumbersVec = PreScreeningNumbers(upperBound);
+
+	for (unsigned int i = 0; i < primeNumbersVec.size(); i++)
+	{
+		if (primeNumbersVec[i] == true)
+		{
+			primeNumbersSet.insert(i);
+		}
+	}
+
+	return primeNumbersSet;
 }
