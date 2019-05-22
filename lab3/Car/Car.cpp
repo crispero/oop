@@ -1,36 +1,19 @@
 ﻿#include "pch.h"
 #include "CCar.h"
-#include "UserChoice.h"
+#include "CRemoteControl.h"
 #include <iostream>
+
+using namespace std;
 
 int main()
 {
 	CCar car;
-	std::string str;
+	CRemoteControl remoteControl(car, cin, cout);
 
-	while (true)
+	while (!std::cin.eof())
 	{
-		std::cout << ">";
-		std::cin >> str;
-		if (str == Info)
-			car.GetCurrentInfo();
-		else if (str == EngineOn)
-			car.TurnOnEngine();
-		else if (str == EngineOff)
-			car.TurnOffEngine();
-		else if (str == SetGear)
-		{
-			int gear;
-			std::cin >> gear;
-			car.SetGear(gear);
-		}
-		else if (str == SetSpeed)
-		{
-			int speed;
-			std::cin >> speed;
-			car.SetSpeed(speed);
-		}
-		else
-			std::cout << "" << std::endl;
+		remoteControl.HandleCommand();
 	}
+
+	return 0;
 }
