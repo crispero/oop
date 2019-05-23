@@ -1,5 +1,4 @@
-﻿#include "pch.h"
-#include "CCar.h"
+﻿#include "CCar.h"
 #include "CRemoteControl.h"
 #include <iostream>
 

@@ -15,36 +15,27 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Car.cpp">
+    <ClCompile Include="CarTest.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="CCar.cpp">
+    <ClCompile Include="..\..\Car\CCar.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="CRemoteControl.cpp">
+    <ClCompile Include="..\..\Car\CRemoteControl.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CCar.h">
+    <ClInclude Include="..\..\Car\CCar.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="CRemoteControl.h">
+    <ClInclude Include="..\..\Car\Const.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Const.h">
+    <ClInclude Include="..\..\Car\CRemoteControl.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Direction.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="Gear.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="SpeedRangeForGear.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="UserCommand.h">
+    <ClInclude Include="..\..\Car\UserCommand.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

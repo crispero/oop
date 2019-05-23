@@ -20,9 +20,9 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{271E2E04-97C8-4FCE-843F-AB15D1FCA334}</ProjectGuid>
+    <ProjectGuid>{885BB761-02D4-402F-8A22-E762F846094B}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Car</RootNamespace>
+    <RootNamespace>CarTest</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -91,6 +91,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>../../../</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -151,18 +152,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Car.cpp" />
-    <ClCompile Include="CCar.cpp" />
-    <ClCompile Include="CRemoteControl.cpp" />
+    <ClCompile Include="..\..\Car\CCar.cpp" />
+    <ClCompile Include="..\..\Car\CRemoteControl.cpp" />
+    <ClCompile Include="CarTest.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CCar.h" />
-    <ClInclude Include="Const.h" />
-    <ClInclude Include="CRemoteControl.h" />
-    <ClInclude Include="Direction.h" />
-    <ClInclude Include="Gear.h" />
-    <ClInclude Include="SpeedRangeForGear.h" />
-    <ClInclude Include="UserCommand.h" />
+    <ClInclude Include="..\..\Car\CCar.h" />
+    <ClInclude Include="..\..\Car\Const.h" />
+    <ClInclude Include="..\..\Car\CRemoteControl.h" />
+    <ClInclude Include="..\..\Car\UserCommand.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

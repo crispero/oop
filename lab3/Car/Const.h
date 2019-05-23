@@ -2,7 +2,9 @@
 #include <string>
 
 const std::string ENGINE_ON = "Engine on";
+const std::string ENGINE_ALREADY_ON = "Engine already on";
 const std::string ENGINE_OFF = "Engine off";
+const std::string ENGINE_ALREADY_OFF = "Engine already off";
 const std::string UNKNOWN_COMMAND = "Unknown command!";
 const std::string ENGINE_CONDITION = "Engine condition: ";
 const std::string DIRECTION_OF_TRAVEL = "Direction of travel: ";

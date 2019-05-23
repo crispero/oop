@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "CRemoteControl.h"
 #include "Const.h"
 #include "UserCommand.h"
@@ -16,21 +15,19 @@ void CRemoteControl::HandleCommand()
 	std::string commandLine;
 	UserCommand userCommand;
 
-	while (true)
-	{
-		std::cout << "> ";
-		m_input >> commandLine;
+	while (m_input >> commandLine)
+	{	
 		if (commandLine == userCommand.Info)
 		{
 			PrintInfo(m_car);
 		}
 		else if (commandLine == userCommand.EngineOn)
 		{
-			m_output << (m_car.TurnOnEngine() ? ENGINE_ON : ENGINE_OFF);
+			m_output << (m_car.TurnOnEngine() ? ENGINE_ON : ENGINE_ALREADY_ON);
 		}
 		else if (commandLine == userCommand.EngineOff)
 		{
-			m_output << (m_car.TurnOffEngine() ? ENGINE_OFF : ENGINE_ON);
+			m_output << (m_car.TurnOffEngine() ? ENGINE_OFF : ENGINE_ALREADY_OFF);
 		}
 		else if (commandLine == userCommand.SetGear)
 		{
