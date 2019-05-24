@@ -6,10 +6,11 @@ class CRectangle : ISolidShape
 {
 public:
 	CRectangle(CPoint& leftTop, const double width, const double height, const std::string outlineColor, const std::string fillColor);
-	double GetArea() const;
-	double GetPerimeter() const;
-	std::string GetOutlineColor() const;
-	std::string GetFillColor() const;
+	~CRectangle() = default;
+	double GetArea() const override;
+	double GetPerimeter() const override;
+	std::string GetOutlineColor() const override;
+	std::string GetFillColor() const override;
 
 	CPoint GetLeftTop() const;
 	CPoint GetRightBottom() const;

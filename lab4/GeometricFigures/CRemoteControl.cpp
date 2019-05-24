@@ -1,9 +1,17 @@
 #include "CRemoteControl.h"
+#include <iostream>
 
-CRemoteControl::CRemoteControl()
+CRemoteControl::CRemoteControl(std::istream& input, std::ostream& output)
+	: m_input(input)
+	, m_output(output)
 {
 }
 
-CRemoteControl::~CRemoteControl()
+void CRemoteControl::HandleCommand()
+{
+
+}
+
+void CRemoteControl::PrintInfo()
 {
 }
