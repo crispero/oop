@@ -11,7 +11,7 @@ CTriangle::CTriangle(CPoint& vertex1, CPoint& vertex2, CPoint& vertex3, const st
 
 double CTriangle::GetSide(CPoint firstVertex, CPoint secondVertex) const
 {
-	return (sqrt(pow(secondVertex.GetX - firstVertex.GetX, 2) + pow(secondVertex.GetY - firstVertex.GetY, 2)));
+	return (sqrt(pow(secondVertex.GetX() - firstVertex.GetX(), 2) + pow(secondVertex.GetY() - firstVertex.GetY(), 2)));
 }
 
 double CTriangle::GetArea() const

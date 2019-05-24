@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -151,7 +151,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CCircle.cpp" />
+    <ClCompile Include="CLineSegment.cpp" />
+    <ClCompile Include="CPoint.cpp" />
+    <ClCompile Include="CRectangle.cpp" />
+    <ClCompile Include="CRemoteControl.cpp" />
+    <ClCompile Include="CTriangle.cpp" />
     <ClCompile Include="GeometricFigures.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CCircle.h" />
+    <ClInclude Include="CLineSegment.h" />
+    <ClInclude Include="Const.h" />
+    <ClInclude Include="CPoint.h" />
+    <ClInclude Include="CRectangle.h" />
+    <ClInclude Include="CRemoteControl.h" />
+    <ClInclude Include="CTriangle.h" />
+    <ClInclude Include="IShape.h" />
+    <ClInclude Include="ISolidShape.h" />
+    <ClInclude Include="Shape.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
