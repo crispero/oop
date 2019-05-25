@@ -2,7 +2,7 @@
 #include "ISolidShape.h"
 #include "CPoint.h"
 
-class CRectangle : ISolidShape
+class CRectangle : public ISolidShape
 {
 public:
 	CRectangle(CPoint& leftTop, const double width, const double height, const std::string outlineColor, const std::string fillColor);

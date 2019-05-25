@@ -1,7 +1,6 @@
 ﻿#include "CRemoteControl.h"
 #include "Const.h"
 #include <fstream>
-#include <iostream>
 
 int main(int argc, char* argv[])
 {
@@ -23,7 +22,7 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
-	CRemoteControl remoteControl(std::cin, std::cout);
+	CRemoteControl remoteControl(fin, std::cout);
 	remoteControl.HandleCommand();
 
 	return 0;

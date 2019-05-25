@@ -2,7 +2,7 @@
 #include "ISolidShape.h"
 #include "CPoint.h"
 
-class CTriangle : ISolidShape
+class CTriangle : public ISolidShape
 {
 public:
 	CTriangle(CPoint& vertex1, CPoint& vertex2, CPoint& vertex3, const std::string outlineColor, const std::string fillColor);

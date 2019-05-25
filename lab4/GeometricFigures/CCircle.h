@@ -2,7 +2,7 @@
 #include "ISolidShape.h"
 #include "CPoint.h"
 
-class CCircle : ISolidShape
+class CCircle : public ISolidShape
 {
 public:
 	CCircle(CPoint& center, const double radius, const std::string outlineColor, const std::string fillColor);

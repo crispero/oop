@@ -36,6 +36,7 @@ CPoint CRectangle::GetLeftTop() const
 
 CPoint CRectangle::GetRightBottom() const
 {
+	return m_leftTop;
 }
 
 double CRectangle::GetWidth() const

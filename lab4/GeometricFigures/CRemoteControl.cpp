@@ -1,8 +1,7 @@
 #include "CRemoteControl.h"
 #include "Const.h"
 #include "Shape.h"
-#include <iostream>
-#include <string>
+#include <sstream>
 
 CRemoteControl::CRemoteControl(std::istream& input, std::ostream& output)
 	: m_input(input)
@@ -13,7 +12,7 @@ CRemoteControl::CRemoteControl(std::istream& input, std::ostream& output)
 void CRemoteControl::HandleCommand()
 {
 	std::string commandLine;
-	while (getline(m_input, commandLine))
+	while (std::getline(m_input, commandLine))
 	{
 		std::istringstream ist(commandLine);
 		std::string shapeName;
@@ -52,7 +51,7 @@ void CRemoteControl::PrintInfo()
 {
 }
 
-std::shared_ptr<CCircle> CRemoteControl::CreateCircle(std::istringstream& ist)
+std::shared_ptr<CCircle> CRemoteControl::CreateCircle(std::istream& ist)
 {
 	double x, y, radius;
 	std::string outlineColor, fillColor;
@@ -64,7 +63,7 @@ std::shared_ptr<CCircle> CRemoteControl::CreateCircle(std::istringstream& ist)
 	return std::make_shared<CCircle>(center, radius, outlineColor, fillColor);
 }
 
-std::shared_ptr<CRectangle> CRemoteControl::CreateRectangle(std::istringstream& ist)
+std::shared_ptr<CRectangle> CRemoteControl::CreateRectangle(std::istream& ist)
 {
 	double x, y, width, height;
 	std::string outlineColor, fillColor;
@@ -76,7 +75,7 @@ std::shared_ptr<CRectangle> CRemoteControl::CreateRectangle(std::istringstream& 
 	return std::make_shared<CRectangle>(leftTop, width, height, outlineColor, fillColor);
 }
 
-std::shared_ptr<CTriangle> CRemoteControl::CreateTriangle(std::istringstream& ist)
+std::shared_ptr<CTriangle> CRemoteControl::CreateTriangle(std::istream& ist)
 {
 	double x1, y1;
 	double x2, y2;
@@ -95,7 +94,7 @@ std::shared_ptr<CTriangle> CRemoteControl::CreateTriangle(std::istringstream& is
 	return std::make_shared<CTriangle>(vertex1, vertex2, vertex3, outlineColor, fillColor);
 }
 
-std::shared_ptr<CLineSegment> CRemoteControl::CreateLineSegment(std::istringstream& ist)
+std::shared_ptr<CLineSegment> CRemoteControl::CreateLineSegment(std::istream& ist)
 {
 	double x1, y1;
 	double x2, y2;
