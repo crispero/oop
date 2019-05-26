@@ -47,10 +47,6 @@ void CRemoteControl::HandleCommand()
 	}
 }
 
-void CRemoteControl::PrintInfo()
-{
-}
-
 std::shared_ptr<CCircle> CRemoteControl::CreateCircle(std::istream& ist)
 {
 	double x, y, radius;
@@ -108,4 +104,53 @@ std::shared_ptr<CLineSegment> CRemoteControl::CreateLineSegment(std::istream& is
 	CPoint endPoint(x2, y2);
 
 	return std::make_shared<CLineSegment>(startPoint, endPoint, outlineColor);
+}
+
+void CRemoteControl::GetShapeWithMaxArea()
+{
+	auto shapeWithMaxArea = m_shape[0];
+	for (const auto& shape : m_shape)
+	{
+		if (shape->GetArea() > shapeWithMaxArea->GetArea())
+		{
+			shapeWithMaxArea = shape;
+		}
+	}
+
+	m_output << SHAPE_WITH_MAX_AREA;
+	shapeWithMaxArea->PrintInfo(m_output);
+	m_output << LINE_BREAK_CHARACTER;
+}
+
+void CRemoteControl::GetShapeWithMinPerimeter()
+{
+	auto shapeWithMinPerimeter = m_shape[0];
+	for (const auto& shape : m_shape)
+	{
+		if (shape->GetPerimeter() < shapeWithMinPerimeter->GetPerimeter())
+		{
+			shapeWithMinPerimeter = shape;
+		}
+	}
+
+	m_output << SHAPE_WITH_MIN_PERIMETER;
+	shapeWithMinPerimeter->PrintInfo(m_output);
+	m_output << LINE_BREAK_CHARACTER;
+}
+
+void CRemoteControl::PrintInfo()
+{
+	if (m_shape.size() == 0)
+	{
+		m_output << ERROR_NO_FIGURES_FOUND;
+	}
+	else if (m_shape.size() == 1)
+	{
+		m_shape[0]->PrintInfo(m_output);
+	}
+	else
+	{
+		GetShapeWithMaxArea();
+		GetShapeWithMinPerimeter();
+	}
 }

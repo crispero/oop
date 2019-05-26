@@ -1,1 +1,3 @@
 rectangle 10.3 20.15 30.7 40.4 ff0000 00ff00
+rectangle 10.3 20.15 21.4 9.4 ff0000 00ff00
+circle 4.0 4.0 8.2 ff0000 00ff00

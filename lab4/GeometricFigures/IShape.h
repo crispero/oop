@@ -10,5 +10,6 @@ public:
 	virtual double GetArea() const = 0;
 	virtual double GetPerimeter() const = 0;
 	virtual std::string GetOutlineColor() const = 0;
+	virtual void PrintInfo(std::ostream& output) const = 0;
 
 };

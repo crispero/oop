@@ -152,7 +152,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\GeometricFigures\CCircle.cpp" />
+    <ClCompile Include="..\..\GeometricFigures\CLineSegment.cpp" />
+    <ClCompile Include="..\..\GeometricFigures\CPoint.cpp" />
+    <ClCompile Include="..\..\GeometricFigures\CRectangle.cpp" />
+    <ClCompile Include="..\..\GeometricFigures\CRemoteControl.cpp" />
+    <ClCompile Include="..\..\GeometricFigures\CTriangle.cpp" />
     <ClCompile Include="GeometricFiguresTest.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\GeometricFigures\CCircle.h" />
+    <ClInclude Include="..\..\GeometricFigures\CLineSegment.h" />
+    <ClInclude Include="..\..\GeometricFigures\Const.h" />
+    <ClInclude Include="..\..\GeometricFigures\CPoint.h" />
+    <ClInclude Include="..\..\GeometricFigures\CRectangle.h" />
+    <ClInclude Include="..\..\GeometricFigures\CRemoteControl.h" />
+    <ClInclude Include="..\..\GeometricFigures\CTriangle.h" />
+    <ClInclude Include="..\..\GeometricFigures\IShape.h" />
+    <ClInclude Include="..\..\GeometricFigures\ISolidShape.h" />
+    <ClInclude Include="..\..\GeometricFigures\Shape.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

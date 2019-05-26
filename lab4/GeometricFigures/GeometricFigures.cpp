@@ -24,6 +24,7 @@ int main(int argc, char* argv[])
 
 	CRemoteControl remoteControl(fin, std::cout);
 	remoteControl.HandleCommand();
+	remoteControl.PrintInfo();
 
 	return 0;
 }

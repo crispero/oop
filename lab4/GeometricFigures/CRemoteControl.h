@@ -20,6 +20,8 @@ private:
 	std::shared_ptr<CRectangle> CreateRectangle(std::istream& ist);
 	std::shared_ptr<CTriangle> CreateTriangle(std::istream& ist);
 	std::shared_ptr<CLineSegment> CreateLineSegment(std::istream& ist);
+	void GetShapeWithMaxArea();
+	void GetShapeWithMinPerimeter();
 
 private:
 	std::istream& m_input;

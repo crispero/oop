@@ -1,4 +1,5 @@
 #include "CTriangle.h"
+#include "Const.h"
 
 CTriangle::CTriangle(CPoint& vertex1, CPoint& vertex2, CPoint& vertex3, const std::string outlineColor, const std::string fillColor)
 	: m_vertex1(vertex1)
@@ -58,4 +59,15 @@ CPoint CTriangle::GetVertex2() const
 CPoint CTriangle::GetVertex3() const
 {
 	return m_vertex3;
+}
+
+void CTriangle::PrintInfo(std::ostream& output) const
+{
+	output << AREA << GetArea() << LINE_BREAK_CHARACTER;
+	output << PERIMETER << GetPerimeter() << LINE_BREAK_CHARACTER;
+	output << OUTLINE_COLOR << GetOutlineColor() << LINE_BREAK_CHARACTER;
+	output << FILL_COLOR << GetFillColor() << LINE_BREAK_CHARACTER;
+	output << VERTEX1 << GetVertex1().GetX() << SPACE << GetVertex1().GetY() << LINE_BREAK_CHARACTER;
+	output << VERTEX2 << GetVertex2().GetX() << SPACE << GetVertex2().GetY() << LINE_BREAK_CHARACTER;
+	output << VERTEX2 << GetVertex3().GetX() << SPACE << GetVertex3().GetY() << LINE_BREAK_CHARACTER;
 }

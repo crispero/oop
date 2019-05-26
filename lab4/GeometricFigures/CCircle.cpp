@@ -1,5 +1,6 @@
 #define _USE_MATH_DEFINES
 #include "CCircle.h"
+#include "Const.h"
 #include <cmath>
 
 CCircle::CCircle(CPoint& center, const double radius, const std::string outlineColor, const std::string fillColor)
@@ -38,4 +39,14 @@ CPoint CCircle::GetCenter() const
 double CCircle::GetRadius() const
 {
 	return m_radius;
+}
+
+void CCircle::PrintInfo(std::ostream& output) const 
+{
+	output << AREA << GetArea() << LINE_BREAK_CHARACTER;
+	output << PERIMETER << GetPerimeter() << LINE_BREAK_CHARACTER;
+	output << OUTLINE_COLOR << GetOutlineColor() << LINE_BREAK_CHARACTER;
+	output << FILL_COLOR << GetFillColor() << LINE_BREAK_CHARACTER;
+	output << CENTER << GetCenter().GetX() << SPACE << GetCenter().GetY() << LINE_BREAK_CHARACTER;
+	output << RADIUS << GetRadius() << LINE_BREAK_CHARACTER;
 }

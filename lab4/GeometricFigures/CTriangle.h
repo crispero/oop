@@ -1,6 +1,7 @@
 #pragma once
 #include "ISolidShape.h"
 #include "CPoint.h"
+#include <sstream>
 
 class CTriangle : public ISolidShape
 {
@@ -11,6 +12,7 @@ public:
 	double GetPerimeter() const override;
 	std::string GetOutlineColor() const override;
 	std::string GetFillColor() const override;
+	void PrintInfo(std::ostream& output) const override;
 
 	CPoint GetVertex1() const;
 	CPoint GetVertex2() const;

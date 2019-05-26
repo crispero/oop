@@ -1,4 +1,5 @@
 #include "CRectangle.h"
+#include "Const.h"
 
 CRectangle::CRectangle(CPoint& leftTop, const double width, const double height, const std::string outlineColor, const std::string fillColor)
 	: m_leftTop(leftTop)
@@ -36,7 +37,8 @@ CPoint CRectangle::GetLeftTop() const
 
 CPoint CRectangle::GetRightBottom() const
 {
-	return m_leftTop;
+	CPoint rightBottom(m_leftTop.GetX() + m_width, m_leftTop.GetY() + m_height);
+	return rightBottom;
 }
 
 double CRectangle::GetWidth() const
@@ -47,4 +49,16 @@ double CRectangle::GetWidth() const
 double CRectangle::GetHeight() const
 {
 	return m_height;
+}
+
+void CRectangle::PrintInfo(std::ostream& output) const
+{
+	output << AREA << GetArea() << LINE_BREAK_CHARACTER;
+	output << PERIMETER << GetPerimeter() << LINE_BREAK_CHARACTER;
+	output << OUTLINE_COLOR << GetOutlineColor() << LINE_BREAK_CHARACTER;
+	output << FILL_COLOR << GetFillColor() << LINE_BREAK_CHARACTER;
+	output << LEFT_TOP << GetLeftTop().GetX() << SPACE << GetLeftTop().GetY() << LINE_BREAK_CHARACTER;
+	output << RIGHT_BOTTOM << GetRightBottom().GetX() << SPACE << GetRightBottom().GetY() << LINE_BREAK_CHARACTER;
+	output << WIDTH << GetWidth() << LINE_BREAK_CHARACTER;
+	output << HEIGHT << GetHeight() << LINE_BREAK_CHARACTER;
 }
