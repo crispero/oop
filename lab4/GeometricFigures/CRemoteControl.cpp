@@ -106,36 +106,28 @@ std::shared_ptr<CLineSegment> CRemoteControl::CreateLineSegment(std::istream& is
 	return std::make_shared<CLineSegment>(startPoint, endPoint, outlineColor);
 }
 
-void CRemoteControl::GetShapeWithMaxArea()
+std::shared_ptr<IShape> CRemoteControl::GetShapeWithMaxArea()
 {
-	auto shapeWithMaxArea = m_shape[0];
-	for (const auto& shape : m_shape)
-	{
-		if (shape->GetArea() > shapeWithMaxArea->GetArea())
-		{
-			shapeWithMaxArea = shape;
-		}
-	}
+	return *std::max_element(m_shape.begin(), m_shape.end(), [](const std::shared_ptr<IShape>& shape1, const std::shared_ptr<IShape>& shape2) -> bool { return shape1->GetArea() < shape2->GetArea(); });
+}
 
+void CRemoteControl::PrintShapeWithMaxArea()
+{
 	m_output << SHAPE_WITH_MAX_AREA;
-	shapeWithMaxArea->PrintInfo(m_output);
+	GetShapeWithMaxArea()->PrintInfo(m_output);
 	m_output << LINE_BREAK_CHARACTER;
 }
 
-void CRemoteControl::GetShapeWithMinPerimeter()
+void CRemoteControl::PrintShapeWithMinPerimeter()
 {
-	auto shapeWithMinPerimeter = m_shape[0];
-	for (const auto& shape : m_shape)
-	{
-		if (shape->GetPerimeter() < shapeWithMinPerimeter->GetPerimeter())
-		{
-			shapeWithMinPerimeter = shape;
-		}
-	}
-
 	m_output << SHAPE_WITH_MIN_PERIMETER;
-	shapeWithMinPerimeter->PrintInfo(m_output);
+	GetShapeWithMinPerimeter()->PrintInfo(m_output);
 	m_output << LINE_BREAK_CHARACTER;
+}
+
+std::shared_ptr<IShape> CRemoteControl::GetShapeWithMinPerimeter()
+{
+	return *std::min_element(m_shape.begin(), m_shape.end(), [](const std::shared_ptr<IShape>& shape1, const std::shared_ptr<IShape>& shape2) -> bool { return shape1->GetPerimeter() < shape2->GetPerimeter(); });
 }
 
 void CRemoteControl::PrintInfo()
@@ -150,7 +142,7 @@ void CRemoteControl::PrintInfo()
 	}
 	else
 	{
-		GetShapeWithMaxArea();
-		GetShapeWithMinPerimeter();
+		PrintShapeWithMaxArea();
+		PrintShapeWithMinPerimeter();
 	}
 }
