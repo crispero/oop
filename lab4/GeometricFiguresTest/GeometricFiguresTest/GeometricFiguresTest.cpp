@@ -110,7 +110,7 @@ TEST_CASE("CRectangle")
 		CPoint leftTop(5.0, 0.0);
 		double width = 10.0, height = 5.0;
 		std::string outlineColor = "00ff00", fillColor = "000ff0";
-		CPoint rightBottom(leftTop.GetX() + width, leftTop.GetY() + height);
+		CPoint rightBottom(leftTop.GetX() + width, leftTop.GetY() - height);
 		CRectangle rectangle(leftTop, width, height, outlineColor, fillColor);
 
 		CHECK(rectangle.GetArea() == width * height);
@@ -125,7 +125,7 @@ TEST_CASE("CRectangle")
 		CHECK(rectangle.GetHeight() == height);
 
 		std::stringstream output;
-		std::stringstream correctOutput("Area: 50\nPerimeter: 30\nOutline color: 00ff00\nFill color: 000ff0\nLeft top: 5 0\nRight bottom: 15 5\nWidth: 10\nHeight: 5\n");
+		std::stringstream correctOutput("Area: 50\nPerimeter: 30\nOutline color: 00ff00\nFill color: 000ff0\nLeft top: 5 0\nRight bottom: 15 -5\nWidth: 10\nHeight: 5\n");
 
 		rectangle.PrintInfo(output);
 		CHECK(output.str() == correctOutput.str());
@@ -136,7 +136,7 @@ TEST_CASE("CRectangle")
 		CPoint leftTop(5.0, 0.0);
 		double width = 0.0, height = 5.0;
 		std::string outlineColor = "00ff00", fillColor = "000ff0";
-		CPoint rightBottom(leftTop.GetX() + width, leftTop.GetY() + height);
+		CPoint rightBottom(leftTop.GetX() + width, leftTop.GetY() - height);
 		CRectangle rectangle(leftTop, width, height, outlineColor, fillColor);
 
 		CHECK(rectangle.GetArea() == width * height);
@@ -151,7 +151,7 @@ TEST_CASE("CRectangle")
 		CHECK(rectangle.GetHeight() == height);
 
 		std::stringstream output;
-		std::stringstream correctOutput("Area: 0\nPerimeter: 10\nOutline color: 00ff00\nFill color: 000ff0\nLeft top: 5 0\nRight bottom: 5 5\nWidth: 0\nHeight: 5\n");
+		std::stringstream correctOutput("Area: 0\nPerimeter: 10\nOutline color: 00ff00\nFill color: 000ff0\nLeft top: 5 0\nRight bottom: 5 -5\nWidth: 0\nHeight: 5\n");
 
 		rectangle.PrintInfo(output);
 		CHECK(output.str() == correctOutput.str());
@@ -256,7 +256,7 @@ TEST_CASE("CRemoteControl")
 	{
 		std::stringstream input("rectangle 0.0 4.0 8.0 4.0 ff0000 00ff00");
 		std::stringstream output;
-		std::stringstream correctOutput("Area: 32\nPerimeter: 24\nOutline color: ff0000\nFill color: 00ff00\nLeft top: 0 4\nRight bottom: 8 8\nWidth: 8\nHeight: 4\n");
+		std::stringstream correctOutput("Area: 32\nPerimeter: 24\nOutline color: ff0000\nFill color: 00ff00\nLeft top: 0 4\nRight bottom: 8 0\nWidth: 8\nHeight: 4\n");
 
 		CRemoteControl remoteControl(input, output);
 		remoteControl.HandleCommand();

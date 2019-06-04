@@ -2,6 +2,7 @@
 #include "ISolidShape.h"
 #include "CPoint.h"
 #include <sstream>
+#include <algorithm>
 
 class CRectangle : public ISolidShape
 {

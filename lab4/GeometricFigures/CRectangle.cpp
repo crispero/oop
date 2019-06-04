@@ -37,7 +37,7 @@ CPoint CRectangle::GetLeftTop() const
 
 CPoint CRectangle::GetRightBottom() const
 {
-	CPoint rightBottom(m_leftTop.GetX() + m_width, m_leftTop.GetY() + m_height);
+	CPoint rightBottom(m_leftTop.GetX() + m_width, m_leftTop.GetY() - m_height);
 	return rightBottom;
 }
 

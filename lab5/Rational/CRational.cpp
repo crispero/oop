@@ -1,4 +1,5 @@
 #include "CRational.h"
+#include "Const.h"
 
 CRational::CRational()
 	: m_numerator(0)
@@ -18,7 +19,7 @@ CRational::CRational(int numerator, int denominator)
 {
 	if (denominator == 0)
 	{
-		throw std::invalid_argument("Denominator must not be equal to zero");
+		throw std::invalid_argument(DENOMINATOR_MUST_NOT_BE_ZERO);
 	}
 	if (denominator < 0)
 	{
@@ -44,7 +45,7 @@ int CRational::GetDenominator() const
 
 void CRational::Normalize()
 {
-	const auto gcd = GreatestCommonDenominator(abs(m_numerator), m_denominator);
+	const int gcd = GreatestCommonDenominator(abs(m_numerator), m_denominator);
 	m_numerator /= gcd;
 	m_denominator /= gcd;
 }
@@ -95,14 +96,14 @@ CRational& CRational::operator-=(CRational const& rational2)
 
 CRational operator*(CRational const& rational1, CRational const& rational2)
 {
-	return { rational1.GetNumerator() * rational2.GetNumerator(),
-		rational1.GetDenominator() * rational2.GetDenominator() };
+	return (CRational(rational1.GetNumerator() * rational2.GetNumerator(),
+		rational1.GetDenominator() * rational2.GetDenominator()));
 }
 
 CRational operator/(CRational const& rational1, CRational const& rational2)
 {
-	return { rational1.GetNumerator() * rational2.GetDenominator(),
-		rational2.GetNumerator() * rational1.GetDenominator() };
+	return (CRational(rational1.GetNumerator() * rational2.GetDenominator(),
+		rational2.GetNumerator() * rational1.GetDenominator()));
 }
 
 CRational& CRational::operator*=(CRational const& rational2)
@@ -123,12 +124,12 @@ CRational& CRational::operator/=(CRational const& rational2)
 
 bool operator==(CRational const& rational1, CRational const& rational2)
 {
-	return rational1.GetNumerator() == rational2.GetNumerator() && rational2.GetDenominator() == rational2.GetDenominator();
+	return rational1.GetNumerator() == rational2.GetNumerator() && rational1.GetDenominator() == rational2.GetDenominator();
 }
 
 bool operator!=(CRational const& rational1, CRational const& rational2)
 {
-	return rational1.GetNumerator() != rational2.GetNumerator() || rational2.GetDenominator() != rational2.GetDenominator();
+	return rational1.GetNumerator() != rational2.GetNumerator() || rational1.GetDenominator() != rational2.GetDenominator();
 }
 
 bool const operator<(CRational const& rational1, CRational const& rational2)
@@ -151,13 +152,13 @@ bool const operator>=(CRational const& rational1, CRational const& rational2)
 	return rational1 == rational2 || rational1 > rational2;
 }
 
-std::ostream& operator<<(std::ostream stream, CRational const& rational)
+std::ostream& operator<<(std::ostream& stream, CRational const& rational)
 {
 	stream << rational.GetNumerator() << '/' << rational.GetDenominator();
 	return stream;
 }
 
-std::istream& operator>>(std::istream stream, CRational& rational)
+std::istream& operator>>(std::istream& stream, CRational& rational)
 {
 	int numerator;
 	int denominator;
@@ -168,7 +169,7 @@ std::istream& operator>>(std::istream stream, CRational& rational)
 	}
 	else
 	{
-		throw std::invalid_argument("error");
+		throw std::invalid_argument(NOT_RATIONAL_NUMBER);
 	}
 	return stream;
 }

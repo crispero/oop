@@ -14,14 +14,16 @@ public:
 	CRemoteControl(std::istream& input, std::ostream& output);
 	void HandleCommand();
 	void PrintInfo();
-
+	
 private:
 	std::shared_ptr<CCircle> CreateCircle(std::istream& ist);
 	std::shared_ptr<CRectangle> CreateRectangle(std::istream& ist);
 	std::shared_ptr<CTriangle> CreateTriangle(std::istream& ist);
 	std::shared_ptr<CLineSegment> CreateLineSegment(std::istream& ist);
-	void GetShapeWithMaxArea();
-	void GetShapeWithMinPerimeter();
+	std::shared_ptr<IShape> GetShapeWithMaxArea();
+	std::shared_ptr<IShape> GetShapeWithMinPerimeter();
+	void PrintShapeWithMaxArea();
+	void PrintShapeWithMinPerimeter();
 
 private:
 	std::istream& m_input;
