@@ -32,7 +32,13 @@ private:
 	std::string ParseProtocol(std::string const& url);
 	std::string ParsePort(std::string const& url);
 
+	bool IsValidDomain(std::string const& domain);
+	bool IsValidDocument(std::string const& document);
+	bool IsValidProtocol(std::string const& protocol);
+	bool IsValidPort(unsigned const port);
+
 	Protocol ConvertStringToProtocol(std::string const& protocol) const;
+	std::string ConvertProtocolToString() const;
 
 	std::string m_url;
 	std::string m_domain;
