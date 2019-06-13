@@ -38,11 +38,11 @@ private:
 	bool IsValidPort(unsigned const port);
 
 	Protocol ConvertStringToProtocol(std::string const& protocol) const;
-	std::string ConvertProtocolToString() const;
+	std::string ConvertProtocolToString(Protocol const& protocol) const;
 
 	std::string m_url;
 	std::string m_domain;
 	std::string m_document;
 	Protocol m_protocol;
-	unsigned short m_port;
+	unsigned short m_port = 1;
 };

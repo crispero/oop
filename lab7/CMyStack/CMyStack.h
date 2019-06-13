@@ -5,8 +5,9 @@ template <typename T>
 class CMyStack
 {
 public:
-	CMyStack();
-	CMyStack(CMyStack<T> const& stack); // конструктор копирования
+	CMyStack() = default;
+	CMyStack(CMyStack<T> const& stack);
+	CMyStack(CMyStack<T>&& stack);
 	~CMyStack();
 
 	void Push(T const& value);
@@ -16,20 +17,40 @@ public:
 	void Clear();
 	size_t GetSize() const;
 
+	CMyStack<T>& operator=(CMyStack<T> const& stack);
+	CMyStack<T>& operator=(CMyStack<T>&& stack);
+
 private:
 	struct Node
 	{
+		Node(T const& value, std::shared_ptr<Node> const& next)
+			: value(value)
+			, next(next)
+		{
+		}
 		T value;
 		std::shared_ptr<Node> next = nullptr;
 	};
+
+	void CopyNode(CMyStack<T> const& stack);
 
 	size_t m_size = 0;
 	std::shared_ptr<Node> m_top = nullptr;
 };
 
 template <typename T>
-CMyStack<T>::CMyStack()
+CMyStack<T>::CMyStack(CMyStack<T> const& stack)
 {
+	CopyNode(stack);
+}
+
+template <typename T>
+CMyStack<T>::CMyStack(CMyStack<T>&& stack)
+{
+	m_top = stack->m_top;
+	m_size = stack.m_size;
+	stack.m_top = nullptr;
+	stack.m_size = 0;
 }
 
 template <typename T>
@@ -41,14 +62,7 @@ CMyStack<T>::~CMyStack()
 template <typename T>
 void CMyStack<T>::Push(T const& value)
 {
-	auto newNode = std::make_shared<Node>();
-	newNode->value = value;
-
-	if (m_top != nullptr)
-	{
-		newNode->next = m_top;
-	}
-
+	auto newNode = std::make_shared<Node>(value, m_top);
 	m_top = newNode;
 	m_size++;
 }
@@ -95,4 +109,52 @@ template <typename T>
 size_t CMyStack<T>::GetSize() const
 {
 	return m_size;
+}
+
+template <typename T>
+CMyStack<T>& CMyStack<T>::operator=(CMyStack<T> const& stack)
+{
+	if (this != &stack)
+	{
+		Clear();
+		CopyNode(stack);
+	}
+	return *this;
+}
+
+template <typename T>
+CMyStack<T>& CMyStack<T>::operator=(CMyStack<T>&& stack)
+{
+	if (this != &stack)
+	{
+		m_top = stack.m_top;
+		m_size = stack.m_size;
+		stack.m_top = nullptr;
+		stack.m_size = 0;
+	}
+
+	return *this;
+}
+
+template <typename T>
+void CMyStack<T>::CopyNode(CMyStack<T> const& stack)
+{
+	if (!stack.IsEmpty())
+	{
+		m_size = stack.m_size;
+		std::shared_ptr<Node> pCopiedNode = stack.m_top;
+
+		m_top = std::make_shared<Node>(*pCopiedNode);
+		auto pPasteNode = m_top;
+
+		pPasteNode->value = pCopiedNode->value;
+
+		while (pCopiedNode->next != nullptr)
+		{
+			pPasteNode->next = std::make_shared<Node>(*pCopiedNode->next);
+
+			pCopiedNode = pCopiedNode->next;
+			pPasteNode = pPasteNode->next;
+		}
+	}
 }

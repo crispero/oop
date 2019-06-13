@@ -157,6 +157,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CHttpUrl.h" />
+    <ClInclude Include="Const.h" />
     <ClInclude Include="CUrlParsingError.h" />
     <ClInclude Include="Protocol.h" />
   </ItemGroup>

@@ -107,6 +107,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>../../../</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -152,7 +153,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\HttpUrl\CHttpUrl.cpp" />
+    <ClCompile Include="..\..\HttpUrl\CUrlParsingError.cpp" />
     <ClCompile Include="HttpUrlTest.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\HttpUrl\CHttpUrl.h" />
+    <ClInclude Include="..\..\HttpUrl\Const.h" />
+    <ClInclude Include="..\..\HttpUrl\CUrlParsingError.h" />
+    <ClInclude Include="..\..\HttpUrl\Protocol.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

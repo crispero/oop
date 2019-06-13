@@ -1,18 +1,27 @@
 ﻿#include "CHttpUrl.h"
+#include "CUrlParsingError.h"
 #include <iostream>
-#include <fstream>
 
 int main()
 {
-	std::ifstream fin("input.txt");
-	std::ofstream fout("input.txt");
-	CHttpUrl url("https://www.my-site-time.com:443/docs/document1.html?page=3450&lang=en#zero17");
-	std::cout << url.GetURL() << std::endl;
-	std::cout << url.GetProtocol() << std::endl;
-	std::cout << url.GetDomain() << std::endl;
-	std::cout << url.GetPort() << std::endl;
-	std::cout << url.GetDocument() << std::endl;
-	CHttpUrl url1("www.my-site-time.com", "docs/document1.html?page=3450&lang=en#zero17", Protocol::HTTP);
-	std::cout << url1.GetURL() << std::endl;
+	std::string str;
+	while (getline(std::cin, str))
+	{
+		try
+		{
+			CHttpUrl url(str);
+			std::cout << "Protocol: " << url.GetProtocol() << std::endl;
+			std::cout << "Domain: " << url.GetDomain() << std::endl;
+			std::cout << "Port: " << url.GetPort() << std::endl;
+			std::cout << "Document: " << url.GetDocument() << std::endl;
+			std::cout << "URL: "  << url.GetURL() << std::endl;
+		}
+		catch (const CUrlParsingError& err)
+		{
+			std::cout << err.what() << std::endl;
+		}
+		std::cout << std::endl;
+	}
+
 	return 0;
 }

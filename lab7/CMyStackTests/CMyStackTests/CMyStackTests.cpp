@@ -8,6 +8,17 @@ CMyStack<std::string> stringStack;
 
 TEST_CASE("tests")
 {
+	SECTION("Check copy constructor")
+	{
+		CMyStack<std::string> copiedStack;
+		copiedStack.Push("Hello");
+		copiedStack.Push("World!");
+
+		CMyStack<std::string> newStack(copiedStack);
+
+		CHECK(copiedStack.GetTop() == newStack.GetTop());
+		CHECK(copiedStack.GetTop() == newStack.GetTop());
+	}
 	SECTION("Try to init empty stack")
 	{
 		CHECK(intStack.IsEmpty() == true);

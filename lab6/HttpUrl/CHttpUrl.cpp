@@ -1,76 +1,98 @@
 #include "CHttpUrl.h"
 #include "CUrlParsingError.h"
+#include "Const.h"
 #include <algorithm>
 #include <clocale>
+#include <exception>
 #include <iostream>
 #include <regex>
 
 CHttpUrl::CHttpUrl(std::string const& url)
 {
-	auto protocol = ParseProtocol(url);
-	if (IsValidProtocol(protocol))
+	std::string protocol = ParseProtocol(url);
+	if (!IsValidProtocol(protocol))
 	{
-		m_protocol = ConvertStringToProtocol(protocol);
+		throw CUrlParsingError(INVALID_PROTOCOL);
 	}
+	m_protocol = ConvertStringToProtocol(protocol);
 
 	std::string domain = ParseDomain(url);
 	if (!IsValidDomain(domain))
 	{
-		throw CUrlParsingError("Invalid domain");
+		throw CUrlParsingError(INVALID_DOMAIN);
 	}
 	m_domain = domain;
 
 	unsigned short port = std::stoi(ParsePort(url));
 	if (!IsValidPort(port))
 	{
-		throw CUrlParsingError("Invalid port");
+		throw CUrlParsingError(INVALID_PORT);
 	}
 	m_port = port;
 
 	std::string document = ParseDocument(url);
 	if (!IsValidDocument(document))
 	{
-		throw CUrlParsingError("Invalid document");
+		throw CUrlParsingError(INVALID_DOCUMENT);
 	}
 	m_document = document;
 }
 
 CHttpUrl::CHttpUrl(std::string const& domain, std::string const& document, Protocol protocol)
 {
+	if (!IsValidProtocol(ConvertProtocolToString(protocol)))
+	{
+		throw CUrlParsingError(INVALID_PROTOCOL);
+	}
+	m_protocol = protocol;
+
 	if (!IsValidDomain(domain))
 	{
-		throw CUrlParsingError("Invalid domain");
-	}
-	if (!IsValidDocument(document))
-	{
-		throw CUrlParsingError("Invalid document");
+		throw CUrlParsingError(INVALID_DOMAIN);
 	}
 	m_domain = domain;
+
+	if (!IsValidDocument(document))
+	{
+		throw CUrlParsingError(INVALID_DOCUMENT);
+	}
 	m_document = document;
-	m_protocol = protocol;
+
+	if (m_protocol == Protocol::HTTP)
+	{
+		m_port = STANDARD_PORT_FOR_HTTP;
+	}
+	else if (m_protocol == Protocol::HTTPS)
+	{
+		m_port = STANDARD_PORT_FOR_HTTPS;
+	}
 }
 
 CHttpUrl::CHttpUrl(std::string const& domain, std::string const& document, Protocol protocol, unsigned short port)
 {
+	if (!IsValidProtocol(ConvertProtocolToString(protocol)))
+	{
+		throw CUrlParsingError(INVALID_PROTOCOL);
+	}
+	m_protocol = protocol;
+
 	if (!IsValidDomain(domain))
 	{
-		throw CUrlParsingError("Invalid domain");
-	}
-	if (!IsValidDocument(document))
-	{
-		throw CUrlParsingError("Invalid document");
+		throw CUrlParsingError(INVALID_DOMAIN);
 	}
 	m_domain = domain;
+
+	if (!IsValidDocument(document))
+	{
+		throw CUrlParsingError(INVALID_DOCUMENT);
+	}
 	m_document = document;
-	m_protocol = protocol;
-	if (IsValidPort(port))
+
+	if (!IsValidPort(port))
 	{
-		m_port = port;
+		throw CUrlParsingError(INVALID_PORT);
 	}
-	else
-	{
-		throw CUrlParsingError("Invalid port");
-	}
+	m_port = port;
 }
 
 CHttpUrl::~CHttpUrl()
@@ -84,7 +106,7 @@ std::string CHttpUrl::GetURL() const
 	{
 		port = "";
 	}
-	return ConvertProtocolToString() + "://"
+	return ConvertProtocolToString(m_protocol) + "://"
 		+ m_domain
 		+ port + "/"
 		+ m_document;
@@ -113,18 +135,25 @@ unsigned short CHttpUrl::GetPort() const
 std::string CHttpUrl::ParseProtocol(std::string const& url)
 {
 	auto protocol = url;
-	auto protocolEnd = protocol.find('://');
-	if (protocolEnd == std::string::npos)
+	if (protocol.substr(0, 4) == CONST_HTTP)
 	{
-		throw CUrlParsingError("Parse protocol error");
+		auto protocolEnd = url.find('://');
+		if (url[5] == 's' && protocolEnd == 6)
+		{
+			return CONST_HTTPS;
+		}
+		else if (protocol.substr(5, 7) == "://")
+		{
+			return CONST_HTTP;
+		}
 	}
-
-	return protocol.substr(0, protocolEnd - 1);
+	
+	throw CUrlParsingError(INVALID_PROTOCOL);
 }
 
 bool CHttpUrl::IsValidProtocol(std::string const& protocol)
 {
-	if (protocol != "http" && protocol != "https")
+	if (protocol != CONST_HTTP && protocol != CONST_HTTPS)
 	{
 		return false;
 	}
@@ -137,7 +166,7 @@ std::string CHttpUrl::ParseDomain(std::string const& url)
 	auto domainStart = domain.find("://");
 	if (domainStart == std::string::npos)
 	{
-		throw CUrlParsingError("Parse domain domainStart error");
+		throw CUrlParsingError(INVALID_DOMAIN);
 	}
 	domain = domain.substr(domainStart + 3, url.length());
 	auto domainEnd = domain.find(":");
@@ -156,14 +185,14 @@ bool CHttpUrl::IsValidDomain(std::string const& domain)
 {
 	if (domain.empty())
 	{
-		throw CUrlParsingError("IsValidDomain empty");
+		throw CUrlParsingError(EMPTY_DOMAIN);
 	}
 
-	std::regex regex(R"(^([[:alnum:]-\\.]+)$)");
+	std::regex regex(DOMAIN_REGEX);
 	std::smatch match;
 	if (!regex_match(domain, match, regex))
 	{
-		throw CUrlParsingError("IsValidDomain error");
+		throw CUrlParsingError(INVALID_DOMAIN);
 	}
 
 	return true;
@@ -172,16 +201,16 @@ bool CHttpUrl::IsValidDomain(std::string const& domain)
 std::string CHttpUrl::ParsePort(std::string const& url)
 {
 	auto port = url;
-	port = port.substr(ConvertProtocolToString().length() + 3 + m_domain.length(), url.length());
+	port = port.substr(ConvertProtocolToString(m_protocol).length() + 3 + m_domain.length(), url.length());
 	auto portStart = port.find(':');
 	if (portStart == std::string::npos)
 	{
-		throw CUrlParsingError("ParsePort portStart");
+		return (m_protocol == Protocol::HTTP) ? std::to_string(STANDARD_PORT_FOR_HTTP) : std::to_string(STANDARD_PORT_FOR_HTTPS);
 	}
 	auto portEnd = port.find('/');
 	if (portEnd == std::string::npos)
 	{
-		throw CUrlParsingError("ParsePort portEnd");
+		portEnd = port.length();
 	}
 
 	return port.substr(portStart + 1, portEnd);
@@ -189,7 +218,7 @@ std::string CHttpUrl::ParsePort(std::string const& url)
 
 bool CHttpUrl::IsValidPort(unsigned const port)
 {
-	if (port > 0 && port < 49151)
+	if (port >= MIN_PORT && port <= MAX_PORT)
 	{
 		return true;
 	}
@@ -199,26 +228,22 @@ bool CHttpUrl::IsValidPort(unsigned const port)
 std::string CHttpUrl::ParseDocument(std::string const& url)
 {
 	auto document = url;
-	document = document.substr(ConvertProtocolToString().length() + 3 + m_domain.length() + std::to_string(m_port).length() + 1, url.length());
+	document = document.substr(ConvertProtocolToString(m_protocol).length() + 3 + m_domain.length(), url.length());
 	auto documentStart = document.find("/");
 	if (documentStart == std::string::npos)
 	{
-		throw CUrlParsingError("ParseDocument documentStart");
+		throw CUrlParsingError(INVALID_DOCUMENT);
 	}
 	auto documentEnd = document.length();
 	if (documentEnd == std::string::npos)
 	{
-		throw CUrlParsingError("ParseDocument documentEnd");
+		throw CUrlParsingError(INVALID_DOCUMENT);
 	}
 	return document.substr(documentStart + 1, documentEnd);
 }
 
 bool CHttpUrl::IsValidDocument(std::string const& document)
 {
-	if (document.empty())
-	{
-		throw CUrlParsingError("IsValidDocument empty");
-	}
 	for (auto ch : document)
 	{
 		if (ch == '~' || ch == '\'' || ch == '"' || ch == '¹'
@@ -226,20 +251,27 @@ bool CHttpUrl::IsValidDocument(std::string const& document)
 			|| ch == '[' || ch == ']' || ch == '{' || ch == '}' || ch == '|'
 			|| ch == '<' || ch == '>')
 		{
-			throw CUrlParsingError("IsValidDocument error");
+			throw CUrlParsingError(INVALID_DOCUMENT);
+		}
+	}
+	for (int i = 0; i < document.length() - 1; i++)
+	{
+		if (document[i] == '/' && document[i + 1] == '/')
+		{
+			throw CUrlParsingError(INVALID_DOCUMENT);
 		}
 	}
 	return true;
 }
 
-std::string CHttpUrl::ConvertProtocolToString() const
+std::string CHttpUrl::ConvertProtocolToString(Protocol const& protocol) const
 {
-	switch (m_protocol)
+	switch (protocol)
 	{
 	case Protocol::HTTP:
-		return "http";
+		return CONST_HTTP;
 	case Protocol::HTTPS:
-		return "https";
+		return CONST_HTTPS;
 	default:
 		return "";
 	}
@@ -247,13 +279,13 @@ std::string CHttpUrl::ConvertProtocolToString() const
 
 Protocol CHttpUrl::ConvertStringToProtocol(std::string const& protocol) const
 {
-	if (protocol == "http")
+	if (protocol == CONST_HTTP)
 	{
 		return Protocol::HTTP;
 	}
-	else if (protocol == "https")
+	else if (protocol == CONST_HTTPS)
 	{
 		return Protocol::HTTPS;
 	}
-	throw CUrlParsingError("Invalid protocol");
+	throw CUrlParsingError(INVALID_PROTOCOL);
 }
