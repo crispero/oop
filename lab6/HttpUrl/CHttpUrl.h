@@ -24,6 +24,7 @@ public:
 	std::string GetDomain() const;
 	std::string GetDocument() const;
 	Protocol GetProtocol() const;
+	std::string GetProtocolString() const;
 	unsigned short GetPort() const;
 
 private:

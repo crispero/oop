@@ -1,4 +1,4 @@
-﻿#define CATCH_CONFIG_MAIN // This tells Catch to provide a main() - only do this in one cpp file
+﻿#define CATCH_CONFIG_MAIN
 #include "lab6/HttpUrl/CHttpUrl.h"
 #include "lab6/HttpUrl/CUrlParsingError.h"
 #include "lab6/HttpUrl/Const.h"
@@ -21,6 +21,34 @@ TEST_CASE("tests")
 		CHECK(url1.GetPort() == 3141);
 		CHECK(url1.GetDocument() == "feed/trending");
 		CHECK(url1.GetURL() == "http://www.youtube.com:3141/feed/trending");
+
+		CHttpUrl url2("www.youtube.com:3141/feed/trending");
+		CHECK(url2.GetProtocol() == Protocol::HTTPS);
+		CHECK(url2.GetDomain() == "www.youtube.com");
+		CHECK(url2.GetPort() == 3141);
+		CHECK(url2.GetDocument() == "feed/trending");
+		CHECK(url2.GetURL() == "https://www.youtube.com:3141/feed/trending");
+
+		CHttpUrl url3("https://www.twitch.tv/");
+		CHECK(url3.GetProtocol() == Protocol::HTTPS);
+		CHECK(url3.GetDomain() == "www.twitch.tv");
+		CHECK(url3.GetPort() == STANDARD_PORT_FOR_HTTPS);
+		CHECK(url3.GetDocument() == "");
+		CHECK(url3.GetURL() == "https://www.twitch.tv/");
+
+		CHttpUrl url4("https://www.twitch.tv");
+		CHECK(url4.GetProtocol() == Protocol::HTTPS);
+		CHECK(url4.GetDomain() == "www.twitch.tv");
+		CHECK(url4.GetPort() == STANDARD_PORT_FOR_HTTPS);
+		CHECK(url4.GetDocument() == "");
+		CHECK(url4.GetURL() == "https://www.twitch.tv/");
+
+		CHttpUrl url5("www.twitch.tv");
+		CHECK(url5.GetProtocol() == Protocol::HTTPS);
+		CHECK(url5.GetDomain() == "www.twitch.tv");
+		CHECK(url5.GetPort() == STANDARD_PORT_FOR_HTTPS);
+		CHECK(url5.GetDocument() == "");
+		CHECK(url5.GetURL() == "https://www.twitch.tv/");
 	}
 
 	SECTION("Check constructor with port")
@@ -52,7 +80,7 @@ TEST_CASE("tests")
 		CHECK(url.GetURL() == "https://www.youtube.com/watch?v=7VAUMP7s-p0");
 	}
 
-	SECTION("Invalid protocol")
+	SECTION("Testing protocol")
 	{
 		std::string url("https:/www.youtube.com/");
 		CHECK_THROWS_AS(CHttpUrl(url), CUrlParsingError);
@@ -65,9 +93,27 @@ TEST_CASE("tests")
 
 		std::string url3("test://www.youtube.com/");
 		CHECK_THROWS_AS(CHttpUrl(url3), CUrlParsingError);
+
+		std::string url4("http::/www.youtube.com/");
+		CHECK_THROWS_AS(CHttpUrl(url4), CUrlParsingError);
+
+		CHttpUrl url5("HTTPS://www.youtube.com/");
+		CHECK(url5.GetProtocolString() == CONST_HTTPS);
+
+		CHttpUrl url6("HTTP://www.youtube.com/");
+		CHECK(url6.GetProtocolString() == CONST_HTTP);
+
+		CHttpUrl url7("HtTpS://www.youtube.com/");
+		CHECK(url7.GetProtocolString() == CONST_HTTPS);
+
+		CHttpUrl url8("HttP://www.youtube.com/");
+		CHECK(url8.GetProtocolString() == CONST_HTTP);
+
+		CHttpUrl url9("www.youtube.com");
+		CHECK(url9.GetProtocolString() == CONST_HTTPS);
 	}
 
-	SECTION("Invalid domain")
+	SECTION("Testing domain")
 	{
 		std::string url = "https://www.googl^e.com/doc";
 		CHECK_THROWS_AS(CHttpUrl(url), CUrlParsingError);
@@ -80,6 +126,12 @@ TEST_CASE("tests")
 
 		std::string url3 = "http:///docs/document1.html";
 		CHECK_THROWS_AS(CHttpUrl(url3), CUrlParsingError);
+
+		CHttpUrl url4("www.youtube.com");
+		CHECK(url4.GetDomain() == "www.youtube.com");
+
+		std::string url5 = "http://";
+		CHECK_THROWS_AS(CHttpUrl(url5), CUrlParsingError);
 	}
 
 	SECTION("Min and max port")
@@ -90,19 +142,37 @@ TEST_CASE("tests")
 		CHECK(url1.GetPort() == MAX_PORT);
 	}
 
-	SECTION("Invalid port")
+	SECTION("Testing port")
 	{
-		std::string url = "https://www.google.com:-1/doc";
+		std::string url = "https://hello.com:dsafasa/da";
 		CHECK_THROWS_AS(CHttpUrl(url), CUrlParsingError);
 
-		std::string url1 = "https://www.google.com:dsa/doc";
-		CHECK_THROWS_AS(CHttpUrl(url1), std::invalid_argument);
+		std::string url1 = "https://hello.com:0/da";
+		CHECK_THROWS_AS(CHttpUrl(url1), CUrlParsingError);
 
-		std::string url2 = "https://www.google.com:49152/doc";
+		std::string url2 = "https://hello.com:49152/da";
 		CHECK_THROWS_AS(CHttpUrl(url2), CUrlParsingError);
+
+		std::string url3 = "https://hello.com:-1/da";
+		CHECK_THROWS_AS(CHttpUrl(url3), CUrlParsingError);
+
+		std::string url4 = "hello.com:ada/da";
+		CHECK_THROWS_AS(CHttpUrl(url4), CUrlParsingError);
+
+		CHttpUrl url5("hello.com:312/da");
+		CHECK(url5.GetPort() == 312);
+
+		CHttpUrl url6("hello.com");
+		CHECK(url6.GetPort() == 443);
+
+		CHttpUrl url7("http://hello.com");
+		CHECK(url7.GetPort() == 80);
+
+		CHttpUrl url8("https://hello.com");
+		CHECK(url8.GetPort() == 443);
 	}
 
-	SECTION("Invalid document")
+	SECTION("Testing document")
 	{
 		std::string url = "https://drive.google.com////";
 		CHECK_THROWS_AS(CHttpUrl(url), CUrlParsingError);
@@ -116,10 +186,10 @@ TEST_CASE("tests")
 		std::string url3 = "https://drive.google.com/ument1.html?page=3450&lang=**en#zero";
 		CHECK_THROWS_AS(CHttpUrl(url3), CUrlParsingError);
 
-		std::string url4 = "https://drive.google.com/";
-		CHECK_THROWS_AS(CHttpUrl(url4), CUrlParsingError);
+		CHttpUrl url4("https://drive.google.com/");
+		CHECK(url4.GetDocument() == "");
 
-		std::string url5 = "https://drive.google.com";
-		CHECK_THROWS_AS(CHttpUrl(url5), CUrlParsingError);
+		CHttpUrl url5("https://drive.google.com");
+		CHECK(url5.GetDocument() == "");
 	}
 }

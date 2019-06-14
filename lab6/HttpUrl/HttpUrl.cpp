@@ -10,7 +10,7 @@ int main()
 		try
 		{
 			CHttpUrl url(str);
-			std::cout << "Protocol: " << url.GetProtocol() << std::endl;
+			std::cout << "Protocol: " << url.GetProtocolString() << std::endl;
 			std::cout << "Domain: " << url.GetDomain() << std::endl;
 			std::cout << "Port: " << url.GetPort() << std::endl;
 			std::cout << "Document: " << url.GetDocument() << std::endl;
