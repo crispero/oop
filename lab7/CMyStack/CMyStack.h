@@ -47,7 +47,7 @@ CMyStack<T>::CMyStack(CMyStack<T> const& stack)
 template <typename T>
 CMyStack<T>::CMyStack(CMyStack<T>&& stack)
 {
-	m_top = stack->m_top;
+	m_top = stack.m_top;
 	m_size = stack.m_size;
 	stack.m_top = nullptr;
 	stack.m_size = 0;
@@ -143,11 +143,9 @@ void CMyStack<T>::CopyNode(CMyStack<T> const& stack)
 	{
 		m_size = stack.m_size;
 		std::shared_ptr<Node> pCopiedNode = stack.m_top;
-
+		
 		m_top = std::make_shared<Node>(*pCopiedNode);
 		auto pPasteNode = m_top;
-
-		pPasteNode->value = pCopiedNode->value;
 
 		while (pCopiedNode->next != nullptr)
 		{
