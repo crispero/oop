@@ -47,10 +47,13 @@ CMyStack<T>::CMyStack(CMyStack<T> const& stack)
 template <typename T>
 CMyStack<T>::CMyStack(CMyStack<T>&& stack)
 {
-	m_top = stack.m_top;
-	m_size = stack.m_size;
-	stack.m_top = nullptr;
-	stack.m_size = 0;
+	if (!stack.IsEmpty())
+	{
+		m_top = stack.m_top;
+		m_size = stack.m_size;
+		stack.m_top = nullptr;
+		stack.m_size = 0;
+	}
 }
 
 template <typename T>
@@ -72,7 +75,7 @@ void CMyStack<T>::Pop()
 {
 	if (IsEmpty())
 	{
-		throw std::logic_error("Can't delete element because stack is empty");
+		throw std::logic_error(ERROR_EMPTY_STACK);
 	}
 
 	m_top = m_top->next;
@@ -84,7 +87,7 @@ T CMyStack<T>::GetTop() const
 {
 	if (IsEmpty())
 	{
-		throw std::logic_error("Can't return top because stack is empty");
+		throw std::logic_error(ERROR_EMPTY_STACK);
 	}
 
 	return m_top->value;
@@ -143,7 +146,7 @@ void CMyStack<T>::CopyNode(CMyStack<T> const& stack)
 	{
 		m_size = stack.m_size;
 		std::shared_ptr<Node> pCopiedNode = stack.m_top;
-		
+
 		m_top = std::make_shared<Node>(*pCopiedNode);
 		auto pPasteNode = m_top;
 
